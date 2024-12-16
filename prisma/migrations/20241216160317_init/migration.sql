@@ -22,6 +22,7 @@ CREATE TABLE "User" (
     "avatar" TEXT,
     "role" "Role" NOT NULL DEFAULT 'USER',
     "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "isVerified" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -97,6 +98,7 @@ CREATE TABLE "Email" (
     "subject" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "recipientId" INTEGER NOT NULL,
+    "isRead" BOOLEAN NOT NULL DEFAULT false,
     "sentAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Email_pkey" PRIMARY KEY ("id")
@@ -163,6 +165,8 @@ CREATE TABLE "SMS" (
 CREATE TABLE "services" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "serviceImage" TEXT,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

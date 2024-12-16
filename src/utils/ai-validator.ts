@@ -47,10 +47,11 @@ async function translateToEnglish(text: string): Promise<string> {
 async function analyzeImage(image: File): Promise<ImageAnalysisResult> {
   try {
     const imageBuffer = await image.arrayBuffer();
-    const response = await hf.imageClassification({
-      model: "microsoft/resnet-50",
-      data: new Uint8Array(imageBuffer)
-    }) as HfImageClassificationResult[];
+const uint8Array = new Uint8Array(imageBuffer);
+const response = await hf.imageClassification({
+  model: "microsoft/resnet-50",
+  data: uint8Array.buffer // Use the underlying ArrayBuffer
+}) as HfImageClassificationResult[];
 
     const relevantLabels = response.filter(result => 
       result.label.toLowerCase().includes('screen') ||
