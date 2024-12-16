@@ -1,0 +1,228 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   Int                  @id @default(autoincrement())
+  email                String               @unique
+  fullName             String               @db.VarChar(100)
+  phoneNO              String
+  governorate          String
+  password             String
+  address              String
+  avatar               String?
+  role                 Role                 @default(USER)
+  isActive             Boolean              @default(true)
+  isVerified            Boolean @default(false)
+  createdAt            DateTime             @default(now())
+  customer             Customer?
+  receivedEmails       Email[]              @relation("EmailRecipient")
+  maintenanceRequests  MaintenanceRequest[] @relation("UserRequests")
+  receivedNotification Notification[]       @relation("notificationsRecipient")
+  senderNotification   Notification[]       @relation("notificationsSender")
+  subadmin             SUBADMIN?
+  technician           Technician?
+  Epaid                Epaid[]              @relation("EpaidSender")
+  sentSMS              SMS[]                @relation("SMSSender")
+  receivedSMS          SMS[]                @relation("SMSRecipient")
+  Review               Review[]
+  Invoice              Invoice[]
+}
+
+model Customer {
+  id   Int  @id
+  user User @relation(fields: [id], references: [id])
+}
+
+model Technician {
+  id               Int                  @id
+  specialization   String?
+  services         String?
+  assignedRequests MaintenanceRequest[] @relation("TechnicianAssignments")
+  user             User                 @relation(fields: [id], references: [id])
+}
+
+model SUBADMIN {
+  id          Int     @id
+  department  String?
+  governorate String?
+  user        User    @relation(fields: [id], references: [id])
+}
+
+model MaintenanceRequest {
+  id                 Int            @id @default(autoincrement())
+  customerId         Int
+  technicianId       Int?
+  emailId            Int?
+  governorate        String
+  phoneNO            String
+  address            String
+  deviceType         String
+  deviceModel        String
+  deviceImage        String?
+  problemDescription String
+  status             RequestStatus  @default(PENDING)
+  cost               Float?         @default(0)
+  resultCheck        String?        @default("-")
+  isPaid             Boolean        @default(false)
+  isPaidCheckFee     Boolean        @default(false)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  user               User           @relation("UserRequests", fields: [customerId], references: [id])
+  technician         Technician?    @relation("TechnicianAssignments", fields: [technicianId], references: [id])
+  Epaid              Epaid[]        @relation("EpaidForRequest")
+  invoice            Invoice?
+  smsMessages        SMS[]
+  Notification       Notification[]
+}
+
+model Notification {
+  id          Int                 @id @default(autoincrement())
+  senderId    Int
+  recipientId Int
+  requestId   Int?
+  content     String
+  isRead      Boolean             @default(false)
+  createdAt   DateTime            @default(now())
+  title       String
+  recipient   User                @relation("notificationsRecipient", fields: [recipientId], references: [id])
+  sender      User                @relation("notificationsSender", fields: [senderId], references: [id])
+  request     MaintenanceRequest? @relation(fields: [requestId], references: [id])
+}
+
+model Email {
+  id          Int      @id @default(autoincrement())
+  email       String
+  subject     String
+  content     String
+  recipientId Int
+  isRead      Boolean   @default(false)
+  sentAt      DateTime @default(now())
+  recipient   User     @relation("EmailRecipient", fields: [recipientId], references: [id])
+}
+
+model Epaid {
+  id              Int                @id @default(autoincrement())
+  senderId        Int
+  requestId       Int
+  OperationNumber BigInt
+  amount          Float?
+  CheckFee        Float?
+  textMessage     String?
+  typePaid        typeEpaid
+  paidAt          DateTime           @default(now())
+  sender          User               @relation("EpaidSender", fields: [senderId], references: [id])
+  request         MaintenanceRequest @relation("EpaidForRequest", fields: [requestId], references: [id])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  rating    Int
+  comment   String?
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Invoice {
+  id        Int                @id @default(autoincrement())
+  userId    Int
+  requestId Int                @unique
+  amount    Float
+  issueDate DateTime           @default(now())
+  dueDate   DateTime
+  isPaid    Boolean            @default(false)
+  paidAt    DateTime?
+  request   MaintenanceRequest @relation(fields: [requestId], references: [id])
+  user      User               @relation(fields: [userId], references: [id])
+}
+
+model SMS {
+  id              Int                 @id @default(autoincrement())
+  content         String
+  senderId        Int
+  recipientId     Int
+  operationNumber BigInt?
+  amount          Float?
+  requestId       Int?
+  typePaid        typeEpaid
+  sentAt          DateTime            @default(now())
+  status          SMSStatus           @default(RECEIVED)
+  sender          User                @relation("SMSSender", fields: [senderId], references: [id])
+  recipient       User                @relation("SMSRecipient", fields: [recipientId], references: [id])
+  request         MaintenanceRequest? @relation(fields: [requestId], references: [id])
+}
+
+model services {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  serviceImage String?
+  isActive     Boolean  @default(true)
+  createAt     DateTime @default(now())
+
+  DevicesModels DevicesModels[]
+}
+
+model DevicesModels {
+  id        Int       @id @default(autoincrement())
+  serviceID Int?
+  title     String
+  isActive  Boolean   @default(true)
+  createAt  DateTime  @default(now())
+  services  services? @relation(fields: [serviceID], references: [id])
+}
+
+model TermsOfUsePolicy {
+  id        Int      @id @default(autoincrement())
+  version   String   @default("1.0")
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(true)
+}
+
+model FAQ {
+  id          Int      @id @default(autoincrement())
+  question    String
+  answer      String
+  category    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isPublished Boolean  @default(true)
+}
+
+enum Role {
+  ADMIN
+  SUBADMIN
+  USER
+  TECHNICAL
+}
+
+enum RequestStatus {
+  PENDING
+  ASSIGNED
+  QUOTED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+enum SMSStatus {
+  SENT
+  DELIVERED
+  FAILED
+  RECEIVED
+}
+
+enum typeEpaid {
+  MTN_CACH
+  SYRIATEL_CACH
+}

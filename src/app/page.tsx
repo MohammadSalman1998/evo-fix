@@ -1,101 +1,284 @@
-import Image from "next/image";
+// src\app\page.tsx
+// "use client";
+// import { NextPage } from "next";
+// import React, { useContext } from "react";
+// import ChatBotButton from "@/components/ChatbotButton";
+// import ServiceSlider from "@/components/ServiceSlider";
+// import { Toaster } from "react-hot-toast";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import { ThemeContext } from "./context/ThemeContext";
+// import RepairRequestButton from "@/components/requestbutton";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+// import ContactForm from "@/components/forms/ContactForm";
+// import Reviews from "@/components/Review";
+// import FAQ from "@/components/FAQ";
+// import Footer from "@/components/footer";
+// // import Link from "next/link";
+// import About from "@/components/about";
+// import Hero from "@/components/hero2";
 
-export default function Home() {
+// const Home: NextPage = () => {
+//   const { isDarkMode } = useContext(ThemeContext);
+//   const update = () => console.log("done");
+//   return (
+//     <div className={`  ${
+//       isDarkMode ? "bg-gray-dark" : "light-bg-1"
+//     }`}>
+//       <ToastContainer
+//         position="top-right"
+//         autoClose={5000}
+//         hideProgressBar={false}
+//         newestOnTop={false}
+//         closeOnClick
+//         rtl
+//         pauseOnFocusLoss
+//         draggable
+//         pauseOnHover
+//       />
+//       <RepairRequestButton update={update} />
+//       <Toaster
+//         position="top-right"
+//         reverseOrder={false}
+//         toastOptions={{
+//           style: {
+//             background: isDarkMode ? "#333" : "#fff",
+//             color: isDarkMode ? "#fff" : "#000",
+//             fontSize: "14px",
+//           },
+//         }}
+//       />
+//       <ChatBotButton />
+//       <section>
+//         <Hero/>
+//       </section>
+//       {/* <section
+//         className={`hero h-screen pt-20 bg-fixed ${
+//           isDarkMode ? "dark  text-white" : "light  text-black"
+//         } py-10`}
+//       > */}
+//         {/* <div className="hero-overlay"></div> */}
+//         {/* <div className="md:m-4 mx-auto  text-center md:text-left flex flex-col md:flex-row items-center justify-between "> */}
+//           {/* Hero Text Section (Right Column) */}
+//           {/* <div className="md:w-1/2 flex flex-col items-center text-center md:text-left z-20">
+//             <h2 className="text-4xl font-bold">
+//               نحن نصلح أجهزتك الإلكترونية بسرعة واحترافية
+//             </h2>
+//             <p className="mt-4 text-lg">
+//               إصلاح الشاشات، استبدال البطاريات، والمزيد. اجعل جهازك يعمل كما لو
+//               كان جديدًا مرة أخرى.
+//             </p>
+//             <Link
+//               href="/register"
+//               className={` ${
+//                 isDarkMode ? "text-white" : "text-black"
+//               } btn mt-6`}
+//             >
+//               إنشاء حساب
+//             </Link>
+//           </div> */}
+
+//           {/* Slider Section (Left Column) */}
+//           {/* <div className=" w-full z-20 h-screen  mt-8  md:mt-0 "> */}
+//             {/* <ServiceSlider /> */}
+//           {/* </div> */}
+//         {/* </div> */}
+//       {/* </section> */}
+
+//       <About />
+
+//      <div className="flex h-screen justify-around flex-wrap">
+//      <section
+//         className={` lg:w-1/2 md:w-1/4 sm:w-1/4 bg-fixed ${
+//            isDarkMode ? "dark-bg-1" : "light-bg-1"
+//          }  py-10`}
+//        >
+//          <Reviews />
+//       {/* <a href="/reviews">Reviews</a> */}
+//       </section>
+//       <section
+//         id=""
+//         className={`p-10 lg:w-1/2 md:w-full sm:w-full  ${isDarkMode ? "dark-bg-1" : "light-bg-1"}`}
+//       >
+//         <div className="flex items-center ">
+//           <div className="w-full">
+//             <ContactForm />
+//           </div>
+//         </div>
+//       </section>
+//      </div>
+
+//       <section
+//         id=""
+//         className={`reviews bg-fixed h-screen ${
+//           isDarkMode ? "dark-bg-2" : "light-bg-2"
+//         }  py-10`}
+//       >
+//         <div className="flex   items-center ">
+//           <div className="w-full">
+//             <FAQ />
+//           </div>
+//         </div>
+//       </section>
+
+//       <footer className={`py-6 ${isDarkMode ? "dark-bg-1" : "light-bg-1"}`}>
+//         <Footer />
+//       </footer>
+//     </div>
+//   );
+// };
+
+// export default Home;
+
+"use client";
+import { NextPage } from "next";
+import React, { useContext } from "react";
+import ChatBotButton from "@/components/ChatbotButton";
+import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ThemeContext } from "./context/ThemeContext";
+import RepairRequestButton from "@/components/requestbutton";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ContactForm from "@/components/forms/ContactForm";
+import Reviews from "@/components/Review";
+import FAQ from "@/components/FAQ";
+import Footer from "@/components/footer";
+import About from "@/components/about";
+import Hero from "@/components/hero2";
+
+const Home: NextPage = () => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const update = () => console.log("done");
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div
+      className={`
+        min-h-screen w-full 
+        ${isDarkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"}
+        transition-colors duration-300
+      `}
+    >
+      {/* توستات وإشعارات */}
+      <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          style={{ zIndex: 10000 }}
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          style: {
+            background: isDarkMode ? "#333" : "#fff",
+            color: isDarkMode ? "#fff" : "#000",
+            fontSize: "14px",
+            maxWidth: "90%",
+            width: "300px",
+            zIndex:10000
+          },
+        }}
+      />
+
+      {/* أزرار التفاعل */}
+      <div className="fixed left-4 bottom-4 z-40 flex flex-col space-y-2">
+        <RepairRequestButton update={update} />
+        <ChatBotButton />
+      </div>
+
+      {/* القسم الرئيسي */}
+      <section className="w-full mb-12">
+        <Hero />
+      </section>
+
+    
+
+
+      {/* محتوى الصفحة */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* قسم حول */}
+        <section className="w-full mb-12">
+          <About />
+        </section>
+
+      
+
+        {/* القسم التفاعلي */}
+        {/* <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 mb-12"> */}
+        {/* المراجعات */}
+        {/* <section 
+            className={`
+              w-full rounded-lg p-6 
+              ${isDarkMode 
+                ? 'bg-gray-800 text-gray-200' 
+                : 'bg-gray-100 text-gray-900'}
+              transition-colors duration-300
+            `}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </section> */}
+
+        {/* نموذج التواصل */}
+        {/* <section 
+            className={`
+              w-full rounded-lg p-6 
+              ${isDarkMode 
+                ? 'bg-gray-800 text-gray-200' 
+                : 'bg-gray-100 text-gray-900'}
+              transition-colors duration-300
+            `}
           >
-            Read our docs
-          </a>
+            <ContactForm />
+          </section>
+        </div> */}
+
+        {/* قسم الأسئلة الشائعة */}
+        {/* <section
+          className={`
+            w-full mb-12 rounded-lg p-8 
+            ${
+              isDarkMode
+                ? "bg-gray-800 text-gray-200"
+                : "bg-gray-100 text-gray-900"
+            }
+            transition-colors duration-300
+          `}
+        >
+          <FAQ />
+        </section> */}
+      </div>
+
+      <section
+          className={`
+              w-full mb-12
+            `}
+        >
+          <Reviews />
+        </section>
+
+      {/* التذييل */}
+      <footer
+        className={`
+          w-full py-6 
+          ${isDarkMode ? "bg-gray-900 border-t border-gray-700" : "bg-gray-100"}
+          transition-colors duration-300
+        `}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Footer />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
       </footer>
     </div>
   );
-}
+};
+
+export default Home;

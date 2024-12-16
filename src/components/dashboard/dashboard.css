@@ -1,0 +1,19 @@
+/* src\components\dashboard\dashboard.css
+*/
+.sidebar-button {
+  transition: background-color 0.3s, color 0.3s;
+  padding: 10px;
+  border-radius: 5px;
+}
+.sidebar-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.bg-gray-800 .sidebar-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.main {
+  min-height: 100vh;
+}
+.content {
+  width: 100%;
+}
