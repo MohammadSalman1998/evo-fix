@@ -64,9 +64,11 @@ export default function ResetPassword() {
 
   return (
     <div
-      className={`flex justify-center items-center h-screen ${
-        isDarkMode ? "bg-gray-200 text-black" : "bg-gray-800 text-light"
-      }`}
+      className={`flex justify-center items-center h-screen
+        ${isDarkMode 
+          ? 'bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-800' 
+          : 'bg-gradient-to-br from-white to-gray-50 border border-gray-100'
+        }`}
     >
       <PasswordResetForm
         onSubmit={handleSubmit}
