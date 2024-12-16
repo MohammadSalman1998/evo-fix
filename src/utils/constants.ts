@@ -1,6 +1,6 @@
 // src\utils\constants.ts
 export const DOMAIN = "http://localhost:3000";
-export const HOME_EVOFIX = "https://evo-fi.vercel.app";
+export const HOME_EVOFIX = "https://evo-fix-xi.vercel.app";
 
 export const ERROR_MSG = {
     email_err: "أدخل الإيميل",

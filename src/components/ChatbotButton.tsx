@@ -18,7 +18,7 @@ const ChatBotButton: React.FC = () => {
     <>
       <button
         onClick={toggleChat}
-        className={`fixed bottom-6 right-6 flex items-center justify-center p-4 text-white rounded-full shadow-2xl transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 z-50 group ${
+        className={`fixed bottom-32 right-6 flex items-center justify-center p-4 text-white rounded-full shadow-2xl transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 z-50 group ${
           isDarkMode
             ? "bg-gradient-to-br from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 focus:ring-purple-400"
             : "bg-gradient-to-br from-purple-500 to-purple-300 hover:from-purple-400 hover:to-purple-200 focus:ring-purple-200"
