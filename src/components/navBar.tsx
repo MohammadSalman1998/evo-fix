@@ -12,7 +12,7 @@ import {
   FiHome, FiUser, FiX, 
   FiSun , FiHelpCircle, 
   FiInfo, FiUserPlus , 
-  FiUsers,
+  // FiUsers,
   FiGrid
 } from 'react-icons/fi';
 // import { RiUserAddLine } from 'react-icons/ri'
@@ -252,7 +252,7 @@ const Navbar: React.FC<NavbarProps> = ({ }) => {
             <FiUserPlus />
             إنشاء حساب
           </Link>
-          <Link
+          {/* <Link
             href="/joinus"
             className={`
               nav-item flex items-center gap-2
@@ -264,7 +264,7 @@ const Navbar: React.FC<NavbarProps> = ({ }) => {
           >
             <FiUsers  />
             انضم إلينا
-          </Link>
+          </Link> */}
         </>
       ) : (
         <>

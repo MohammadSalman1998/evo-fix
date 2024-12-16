@@ -277,7 +277,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
             </div>
           ) : (
             <div className="flex items-center">
-              <CheckCircleIcon className="mr-2" />
+              <CheckCircleIcon className="ml-2" />
               تحديث كلمة المرور
             </div>
           )}
