@@ -18,7 +18,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DashboardHome: React.FC = () => {
   const stats = useDataCounts();
-  const [animatedStats, setAnimatedStats] = useState({
+  const [, setAnimatedStats] = useState({
     totalRequests: 0,
     completedRequests: 0,
     pendingRequests: 0,
@@ -41,23 +41,6 @@ const DashboardHome: React.FC = () => {
       const animationDuration = 1500;
       const steps = 50;
 
-      // const animateValue = (start: number, end: number) => {
-      //   const stepValue = (end - start) / steps;
-      //   let currentValue = start;
-
-      //   const interval = setInterval(() => {
-      //     currentValue += stepValue;
-      //     if (Math.abs(currentValue - end) <= Math.abs(stepValue)) {
-      //       currentValue = end;
-      //       clearInterval(interval);
-      //     }
-      //     setAnimatedStats(prev => ({
-      //       ...prev,
-      //       [Object.keys(stats).find(key => stats[key] === end) || 'totalRequests']: Math.round(currentValue)
-      //     }));
-      //   }, animationDuration / steps);
-      // };
-
       type DataCounts = {
         totalRequests: number;
         // Add other keys as needed
@@ -68,6 +51,7 @@ const DashboardHome: React.FC = () => {
       totalRequests: 0,
       // Initialize other keys as needed
   };
+  
 
   const animateValue = (start: number, end: number) => {
     const stepValue = (end - start) / steps;
@@ -116,21 +100,40 @@ const DashboardHome: React.FC = () => {
     );
   }
 
+  // const data = {
+  //   labels: ["مكتملة", "معلقة", "قيد التنفيذ", "مرفوضة"],
+  //   datasets: [
+  //     {
+  //       data: [
+  //         animatedStats.completedRequests,
+  //         stats.pendingRequests + stats.assignedRequests + stats.quotedRequests,
+  //         animatedStats.inProgressRequests,
+  //         animatedStats.rejectedRequests,
+  //       ],
+  //       backgroundColor: ["#4CAF50", "#FFC107", "#03A9F4", "#F44336"],
+  //       hoverBackgroundColor: ["#45a049", "#ffb300", "#039BE5", "#e53935"],
+  //     },
+  //   ],
+  // };
+
   const data = {
-    labels: ["مكتملة", "معلقة", "قيد التنفيذ", "مرفوضة"],
+    labels: ["مكتملة", "معلقة", "قيد التنفيذ", "مرفوضة", "قيد المعاينة", "قيد الموافقة"],
     datasets: [
       {
         data: [
-          animatedStats.completedRequests,
-          stats.pendingRequests + stats.assignedRequests + stats.quotedRequests,
-          animatedStats.inProgressRequests,
-          animatedStats.rejectedRequests,
+          stats.completedRequests,
+          stats.pendingRequests,
+          stats.inProgressRequests,
+          stats.rejectedRequests,
+          stats.assignedRequests,
+          stats.quotedRequests
         ],
-        backgroundColor: ["#4CAF50", "#FFC107", "#03A9F4", "#F44336"],
-        hoverBackgroundColor: ["#45a049", "#ffb300", "#039BE5", "#e53935"],
+        backgroundColor: ["#4CAF50", "#FFC107", "#03A9F4", "#F44336", "#FF9800", "#9C27B0"],
+        hoverBackgroundColor: ["#45a049", "#ffb300", "#039BE5", "#e53935", "#F57C00", "#7B1FA2"],
       },
     ],
   };
+
   
   const StatCard = ({ 
     icon: Icon, 
@@ -138,6 +141,7 @@ const DashboardHome: React.FC = () => {
     value, 
     bgColor = "bg-white", 
     textColor = "text-blue-500" 
+    
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }:any) => (
     <motion.div
@@ -173,25 +177,26 @@ const DashboardHome: React.FC = () => {
             label="الإشعارات غير المقروءة" 
             value={stats.notifications} 
             bgColor="bg-blue-50" 
-            textColor="text-blue-600" 
+            textColor="text-blue-600"
+             
           />
         )}
         <StatCard 
           icon={FileText} 
           label="جميع الطلبات" 
-          value={animatedStats.totalRequests} 
+          value={stats.totalRequests} 
         />
         <StatCard 
           icon={CheckCircle} 
           label="الطلبات المكتملة" 
-          value={animatedStats.completedRequests} 
+          value={stats.completedRequests} 
           bgColor="bg-green-50" 
           textColor="text-green-600" 
         />
         <StatCard 
           icon={Clock} 
           label="الطلبات المعلقة" 
-          value={animatedStats.pendingRequests} 
+          value={stats.pendingRequests} 
           bgColor="bg-yellow-50" 
           textColor="text-yellow-600" 
         />
@@ -212,14 +217,14 @@ const DashboardHome: React.FC = () => {
         <StatCard 
           icon={Clock} 
           label="الطلبات قيد التنفيذ" 
-          value={animatedStats.inProgressRequests} 
+          value={stats.inProgressRequests} 
           bgColor="bg-blue-50" 
           textColor="text-blue-600" 
         />
         <StatCard 
           icon={XCircle} 
           label="الطلبات المرفوضة" 
-          value={animatedStats.rejectedRequests} 
+          value={stats.rejectedRequests} 
           bgColor="bg-red-50" 
           textColor="text-red-600" 
         />
