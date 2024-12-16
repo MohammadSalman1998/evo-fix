@@ -161,7 +161,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
               ${darkMode ? 'text-gray-300' : 'text-gray-700'}
             `}
           >
-            <LockIcon size={16} className="mr-2" />
+            <LockIcon size={16} className="ml-2" />
             كلمة المرور الجديدة
           </label>
           <div className="relative">
@@ -216,7 +216,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
               ${darkMode ? 'text-gray-300' : 'text-gray-700'}
             `}
           >
-            <LockIcon size={16} className="mr-2" />
+            <LockIcon size={16} className="ml-2" />
             تأكيد كلمة المرور
           </label>
           <div className="relative">
