@@ -295,10 +295,10 @@ const DevicesModels: React.FC = () => {
             isOpen={isModalOpen}
             onRequestClose={() => setIsModalOpen(false)}
             ariaHideApp={false}
-            className="fixed inset-0 flex items-center justify-center p-4"
-            overlayClassName="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70"
+            className=" w-full  rounded shadow-lg"
+          overlayClassName="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50"
           >
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full p-6">
+            {/* <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full p-6"> */}
               <DeviceModelForm
                 onSubmit={handleSaveModel}
                 onClose={() => setIsModalOpen(false)}
@@ -306,7 +306,7 @@ const DevicesModels: React.FC = () => {
                 services={selectedModel?.services || []}
                 isActive={selectedModel ? !!selectedModel.isActive : false}
               />
-            </div>
+            {/* </div> */}
           </Modal>
         )}
       </div>

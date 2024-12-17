@@ -325,7 +325,7 @@ const ServicesComponent: React.FC = () => {
           isOpen={isModalOpen}
           onRequestClose={handleCloseModal}
           ariaHideApp={false}
-          className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg"
+          className=" w-full  rounded shadow-lg"
           overlayClassName="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50"
         >
           <ServiceForm

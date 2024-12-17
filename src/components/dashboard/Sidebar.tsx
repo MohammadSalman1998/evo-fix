@@ -1,10 +1,8 @@
-// src\components\dashboard\Sidebar.tsx
 "use client";
 
 import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
-import "./dashboard.css";
-import BottomNavbar from "./BottomNavbar";
+import { motion } from "framer-motion";
 import { ThemeContext } from "@/app/context/ThemeContext";
 import { AuthContext } from "@/app/context/AuthContext";
 import technicalImage from "@/components/assets/images/technicalImage.png";
@@ -17,6 +15,7 @@ import {
   FaHome,
   FaTools,
   FaFileInvoice,
+
 } from "react-icons/fa";
 import { API_BASE_URL } from "../../utils/api";
 import Cookies from "js-cookie";
@@ -42,13 +41,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectOption }) => {
   const { logout } = useContext(AuthContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
-
-  // استرجاع الخيار النشط من localStorage أو تعيين القيمة الافتراضية
   const [activeOption, setActiveOption] = useState<string>(() => {
     return localStorage.getItem("activeOption") || "viewHome";
   });
 
   const [notificationsCount, setNotificationsCount] = useState<number>(0);
+  const [, setIsMobileSidebarOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("email");
@@ -67,31 +65,31 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectOption }) => {
     };
     fetchCount();
   }, []);
-  useEffect(() => {
-    // بدء التحديث التلقائي
-    const stopPolling = startNotificationsCount(setNotificationsCount);
 
-    // تنظيف عند إزالة المكون
+  useEffect(() => {
+    const stopPolling = startNotificationsCount(setNotificationsCount);
     return () => stopPolling();
   }, []);
+
   const handleOptionSelect = (option: string) => {
     setActiveOption(option);
-
-    // حفظ الخيار النشط في localStorage مع استثناء "profile"
     if (option !== "profile") {
       localStorage.setItem("activeOption", option);
     }
     onSelectOption(option);
+    setIsMobileSidebarOpen(false);
   };
 
   const handleProfile = () => {
     setActiveOption("profile");
     onSelectOption("profile");
+    setIsMobileSidebarOpen(false);
   };
 
   const handleLogout = () => {
     logout();
     localStorage.removeItem("activeOption");
+    setIsMobileSidebarOpen(false);
   };
 
   const fetchUserData = async () => {
@@ -139,9 +137,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectOption }) => {
         <div className="relative">
           <FaBell className="text-2xl" />
           {notificationsCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1.5">
+            <motion.span 
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1.5"
+            >
               {notificationsCount}
-            </span>
+            </motion.span>
           )}
         </div>
       ),
@@ -156,15 +158,17 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectOption }) => {
   const sidebarRow = mainRow.filter((option) => option.key !== "viewHome");
 
   return (
-    <div className="flex min-h-screen mt-4 text-white">
-      <div
-        className={`hidden md:flex w-full p-4 flex-col flex-shrink-0 ${
-          isDarkMode ? "bg-gray-800" : "bg-gray-600"
-        }`}
-        style={{ minHeight: "100vh" }}
+    <>
+      {/* Sidebar for Desktop */}
+      <div 
+        className={`
+          hidden md:block fixed right-0 top-16 h-screen w-64 
+          ${isDarkMode ? 'bg-gray-800' : 'bg-gray-700'} 
+          shadow-lg z-40 overflow-y-auto
+        `}
       >
-        <div className="space-y-6 sticky top-0">
-          <div className="flex items-center mt-4">
+        <div className="p-6 space-y-6">
+          <div className="flex items-center mb-8">
             <Image
               src={
                 userData && userData.role === "TECHNICAL"
@@ -172,11 +176,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectOption }) => {
                   : userImage
               }
               alt="Profile"
-              width={40}
-              height={40}
-              className="rounded-full object-cover"
+              width={50}
+              height={50}
+              className="rounded-full object-cover shadow-lg"
             />
-            <span className="ml-4 font-bold mr-4">
+            <span className="ml-4 font-bold text-white">
               {userData ? userData.fullName : "Loading..."}
             </span>
           </div>
@@ -185,40 +189,67 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectOption }) => {
             <button
               key={option.key}
               onClick={() => handleOptionSelect(option.key)}
-              className={`flex items-center m-2 mt-3 ${
-                activeOption === option.key
-                  ? "bg-blue-600 text-white"
-                  : isDarkMode
-                  ? "text-gray-300 hover:bg-blue-400 hover:text-white"
-                  : "text-white hover:bg-blue-400 hover:text-white"
-              } rounded p-2 transition-colors duration-200`}
+              className={`
+                flex items-center w-full p-3 rounded-lg transition-colors 
+                ${activeOption === option.key 
+                  ? 'bg-blue-600 text-white' 
+                  : isDarkMode 
+                    ? 'text-gray-300 hover:bg-blue-500/30' 
+                    : 'text-white hover:bg-blue-500/30'
+                }
+              `}
             >
               {option.icon}
-              <span className="mr-2">{option.name}</span>
+              <span className="mr-4">{option.name}</span>
             </button>
           ))}
 
           {isLoggedIn && (
             <button
               onClick={handleLogout}
-              className="flex items-center m-2 text-red-500 hover:text-red-700 rounded p-2 transition-colors duration-200"
+              className="
+                flex items-center w-full p-3 rounded-lg 
+                text-red-400 hover:text-red-600 transition-colors
+              "
             >
               <FaSignOutAlt className="text-2xl ml-2" />
-              <span className="mr-2">تسجيل الخروج</span>
+              <span className="mr-4">تسجيل الخروج</span>
             </button>
           )}
         </div>
       </div>
 
-      <BottomNavbar
-        mainRow={mainRow}
-        activeOption={activeOption}
-        handleOptionSelect={handleOptionSelect}
-        handleLogout={handleLogout}
-        handleProfile={handleProfile}
-        isDarkMode={isDarkMode}
-      />
-    </div>
+      {/* Mobile Bottom Navigation */}
+      <div 
+        className="
+          fixed bottom-0 left-0 right-0 md:hidden 
+          bg-gray-800 shadow-2xl z-50
+        "
+      >
+        <div className="flex justify-between p-3">
+          {mainRow.map((option) => (
+            <button
+              key={option.key}
+              onClick={() => 
+                option.key === "profile" 
+                  ? handleProfile() 
+                  : handleOptionSelect(option.key)
+              }
+              className={`
+                flex flex-col items-center p-2 rounded-lg
+                ${activeOption === option.key 
+                  ? 'bg-blue-600 text-white' 
+                  : 'text-gray-300 hover:bg-gray-700'
+                }
+              `}
+            >
+              {option.icon}
+              <span className="text-xs mt-1">{option.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 

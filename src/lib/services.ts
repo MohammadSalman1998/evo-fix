@@ -48,7 +48,7 @@ export async function GetAllServices() {
   try {
     const getallServices = await prisma.services.findMany({
       where: { isActive: true },
-      include: { DevicesModels: true },
+      include: { DevicesModels: {where: {isActive: true}} },
       orderBy:{createAt:"desc"}
     });
 

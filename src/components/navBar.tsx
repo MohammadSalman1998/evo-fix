@@ -49,6 +49,14 @@ const Navbar: React.FC<NavbarProps> = ({ }) => {
   const pathname = usePathname();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+      // التحقق مما إذا كان التطبيق يعمل على العميل
+      if (typeof window !== 'undefined') {
+        const role = localStorage.getItem("userRole");
+        setUserRole(role);
+      }
+    }, [isLoggedIn]);
+
   // Animation variants for mobile menu
   const mobileMenuVariants = {
     hidden: { 
@@ -109,6 +117,7 @@ const Navbar: React.FC<NavbarProps> = ({ }) => {
   }, [isDarkMode]);
 
   // Update active navigation item
+
   useEffect(() => {
     const itemMap: { [key: string]: string } = {
       "/": "home",
@@ -116,7 +125,8 @@ const Navbar: React.FC<NavbarProps> = ({ }) => {
       "/faq": "faq",
       "/services": "services",
       "/dashboard": "dashboard",
-      "/admin-dashboard": "dashboard",
+      "/admindashboard": "dashboard",
+      "/technicaldashboard": "dashboard",
       "/login": "login",
       "/register": "register",
       "/joinus": "joinus"
@@ -286,7 +296,7 @@ const Navbar: React.FC<NavbarProps> = ({ }) => {
                 </span>
               )}
               <FiGrid   />
-              لوحة التحكم
+              لوحة التحكم الإدارية
             </Link>
           )}
 
@@ -328,7 +338,7 @@ const Navbar: React.FC<NavbarProps> = ({ }) => {
                 </span>
               )}
               <FiGrid   />
-              لوحة التحكم
+              لوحة التحكم التقنية
             </Link>
           )}
 
