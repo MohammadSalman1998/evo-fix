@@ -35,10 +35,11 @@ const Invoices: React.FC = () => {
       const response = await axiosInstance.get<{
         adminInvoice: Invoice[];
         userInvoice: Invoice[];
+        subAdminInvoice: Invoice[];
       }>(endpoint);
 
       const invoiceData =
-        response.data[userRole === "ADMIN" || userRole === "SUBADMIN"? "adminInvoice" : "userInvoice"];
+        response.data[userRole === "ADMIN" ? "adminInvoice" :  userRole === "SUBADMIN"? "subAdminInvoice" : "userInvoice"];
 
       setInvoices(invoiceData || []);
       setFilteredInvoices(invoiceData || []);
