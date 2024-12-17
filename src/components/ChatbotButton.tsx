@@ -32,7 +32,7 @@ const ChatBotButton: React.FC = () => {
               <MessageCircle 
                 className="w-6 h-6 ml-2 group-hover:scale-110 transition-transform" 
               />
-              <span className="text-sm font-semibold">AI</span>
+              <span className="text-sm font-semibold">المساعد الذكي</span>
             </>
           )}
         </div>

@@ -1,9 +1,11 @@
 // src\app\admindashboard\users\AddUserForm.tsx
+
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "@/utils/api";
 import { ThemeContext } from "../../context/ThemeContext";
+import { User, Phone, Mail, MapPin, Lock } from "lucide-react";
 
 interface AddUserFormProps {
   onSubmit: (data: UserFormData) => Promise<void>;
@@ -71,7 +73,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onSubmit, onClose }) => {
     }));
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: "", // Clear error for the field being changed
+      [name]: "",
     }));
   };
 
@@ -121,7 +123,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onSubmit, onClose }) => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if there are no errors
+    return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -143,134 +145,335 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onSubmit, onClose }) => {
     }
   };
 
+
   return (
-    <div
-      className={`overflow-y-auto max-h-screen custom-sidebar-scroll p-2${
-        isDarkMode ? "bg-gray-800" : "bg-gray-200"
-      }`}
-    >
+    <div>
+      <div
+        className={`
+            p-6
+            ${isDarkMode ? "bg-gray-700" : "bg-blue-50"}
+            border-b border-gray-200
+          `}
+      >
+        <h2
+          className={`
+              text-2xl font-bold text-center 
+              ${isDarkMode ? "text-white" : "text-gray-800"}
+            `}
+        >
+          إضافة مستخدم جديد
+        </h2>
+      </div>
+
       <form
         onSubmit={handleSubmit}
-        className={`p-4 rounded-lg shadow-md flex flex-col gap-y-2 md:grid md:grid-cols-2 gap-x-4 ${
-          isDarkMode ? "text-light" : "text-black"
-        }`}
+        className={`
+            grid grid-cols-1 md:grid-cols-2 gap-6 p-6
+            ${isDarkMode ? "text-gray-200" : "text-gray-800"}
+          `}
       >
-        <div className="mb-2">
-          <label className="block">الاسم الكامل:</label>
-          <input
-            type="text"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            required
-            className="mt-1 p-2 text-black w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.fullName && (
-            <span className="text-red-600">{errors.fullName}</span>
-          )}
-        </div>
-
-        <div className="mb-2">
-          <label className="block">رقم الهاتف:</label>
-          <input
-            type="text"
-            name="phoneNO"
-            value={formData.phoneNO}
-            onChange={handleChange}
-            required
-            className="mt-1 text-black p-2 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.phoneNO && (
-            <span className="text-red-600">{errors.phoneNO}</span>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <label className="block">البريد الإلكتروني:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="mt-1 text-black p-2 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.email && <span className="text-red-600">{errors.email}</span>}
-        </div>
-
-        <div className="mb-4">
-          <label className="block">المحافظة:</label>
-          <select
-            name="governorate"
-            value={formData.governorate}
-            onChange={handleChange}
-            required
-            className="mt-1 p-2 text-black w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        {/* Full Name Input */}
+        <div className="relative">
+          <label
+            className={`
+                block mb-2 text-sm font-medium
+                ${isDarkMode ? "text-gray-300" : "text-gray-700"}
+              `}
           >
-            <option value="">اختر المحافظة</option>
-            <option value="دمشق">دمشق</option>
-            <option value="ريف دمشق">ريف دمشق</option>
-            <option value="حمص">حمص</option>
-            <option value="حماه">حماه</option>
-            <option value="طرطوس">طرطوس</option>
-            <option value="اللاذقية">اللاذقية</option>
-            <option value="السويداء">السويداء</option>
-            <option value="القنيطرة">القنيطرة</option>
-            <option value="حلب">حلب</option>
-            <option value="الرقة">الرقة</option>
-            <option value="الحسكة">الحسكة</option>
-            <option value="دير الزور">دير الزور</option>
-            <option value="ادلب">ادلب</option>
-          </select>
+            الاسم الكامل
+          </label>
+          <div className="relative">
+            <User
+              className={`
+                  absolute left-3 top-1/2 transform -translate-y-1/2
+                  ${isDarkMode ? "text-gray-400" : "text-gray-500"}
+                  w-5 h-5
+                `}
+            />
+            <input
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              className={`
+                  w-full pl-10 pr-3 py-2 rounded-lg
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-white text-gray-900 border-gray-300"
+                  }
+                  border focus:outline-none focus:ring-2 focus:ring-blue-500
+                  transition duration-300
+                `}
+              placeholder="أدخل الاسم الكامل"
+            />
+          </div>
+          {errors.fullName && (
+            <span className="text-red-500 text-sm mt-1 block">
+              {errors.fullName}
+            </span>
+          )}
         </div>
 
-        <div className="mb-4">
-          <label className="block">العنوان:</label>
+        {/* Phone Number Input */}
+        <div className="relative">
+          <label
+            className={`
+                block mb-2 text-sm font-medium
+                ${isDarkMode ? "text-gray-300" : "text-gray-700"}
+              `}
+          >
+            رقم الهاتف
+          </label>
+          <div className="relative">
+            <Phone
+              className={`
+                  absolute left-3 top-1/2 transform -translate-y-1/2
+                  ${isDarkMode ? "text-gray-400" : "text-gray-500"}
+                  w-5 h-5
+                `}
+            />
+            <input
+              type="text"
+              name="phoneNO"
+              value={formData.phoneNO}
+              onChange={handleChange}
+              className={`
+                  w-full pl-10 pr-3 py-2 rounded-lg
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-white text-gray-900 border-gray-300"
+                  }
+                  border focus:outline-none focus:ring-2 focus:ring-blue-500
+                  transition duration-300
+                `}
+              placeholder="أدخل رقم الهاتف"
+            />
+          </div>
+          {errors.phoneNO && (
+            <span className="text-red-500 text-sm mt-1 block">
+              {errors.phoneNO}
+            </span>
+          )}
+        </div>
+
+        {/* Email Input */}
+        <div className="relative">
+          <label
+            className={`
+                block mb-2 text-sm font-medium
+                ${isDarkMode ? "text-gray-300" : "text-gray-700"}
+              `}
+          >
+            البريد الإلكتروني
+          </label>
+          <div className="relative">
+            <Mail
+              className={`
+                  absolute left-3 top-1/2 transform -translate-y-1/2
+                  ${isDarkMode ? "text-gray-400" : "text-gray-500"}
+                  w-5 h-5
+                `}
+            />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={`
+                  w-full pl-10 pr-3 py-2 rounded-lg
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-white text-gray-900 border-gray-300"
+                  }
+                  border focus:outline-none focus:ring-2 focus:ring-blue-500
+                  transition duration-300
+                `}
+              placeholder="أدخل البريد الإلكتروني"
+            />
+          </div>
+          {errors.email && (
+            <span className="text-red-500 text-sm mt-1 block">
+              {errors.email}
+            </span>
+          )}
+        </div>
+
+        {/* Governorate Select */}
+        <div className="relative">
+          <label
+            className={`
+                block mb-2 text-sm font-medium
+                ${isDarkMode ? "text-gray-300" : "text-gray-700"}
+              `}
+          >
+            المحافظة
+          </label>
+          <div className="relative">
+            <MapPin
+              className={`
+                  absolute left-3 top-1/2 transform -translate-y-1/2
+                  ${isDarkMode ? "text-gray-400" : "text-gray-500"}
+                  w-5 h-5
+                `}
+            />
+            <select
+              name="governorate"
+              value={formData.governorate}
+              onChange={handleChange}
+              className={`
+                  w-full pl-10 pr-3 py-2 rounded-lg
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-white text-gray-900 border-gray-300"
+                  }
+                  border focus:outline-none focus:ring-2 focus:ring-blue-500
+                  transition duration-300
+                `}
+            >
+              <option value="">اختر المحافظة</option>
+              <option value="دمشق">دمشق</option>
+              <option value="ريف دمشق">ريف دمشق</option>
+              <option value="حمص">حمص</option>
+              <option value="حماه">حماه</option>
+              <option value="طرطوس">طرطوس</option>
+              <option value="اللاذقية">اللاذقية</option>
+              <option value="السويداء">السويداء</option>
+              <option value="القنيطرة">القنيطرة</option>
+              <option value="حلب">حلب</option>
+              <option value="الرقة">الرقة</option>
+              <option value="الحسكة">الحسكة</option>
+              <option value="دير الزور">دير الزور</option>
+              <option value="ادلب">ادلب</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Address Input */}
+        <div className="relative md:col-span-2">
+          <label
+            className={`
+                block mb-2 text-sm font-medium
+                ${isDarkMode ? "text-gray-300" : "text-gray-700"}
+              `}
+          >
+            العنوان التفصيلي
+          </label>
           <input
             type="text"
             name="address"
             value={formData.address}
             onChange={handleChange}
-            required
-            className="mt-1 p-2 text-black w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`
+                w-full px-3 py-2 rounded-lg
+                ${
+                  isDarkMode
+                    ? "bg-gray-700 text-white border-gray-600"
+                    : "bg-white text-gray-900 border-gray-300"
+                }
+                border focus:outline-none focus:ring-2 focus:ring-blue-500
+                transition duration-300
+              `}
+            placeholder="أدخل العنوان التفصيلي"
           />
           {errors.address && (
-            <span className="text-red-600">{errors.address}</span>
+            <span className="text-red-500 text-sm mt-1 block">
+              {errors.address}
+            </span>
           )}
         </div>
 
-        <div className="mb-4">
-          <label className="block">نوع المستخدم:</label>
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            required
-            className="mt-1 text-black p-2 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        {/* Role Select */}
+        <div className="relative">
+          <label
+            className={`
+                block mb-2 text-sm font-medium
+                ${isDarkMode ? "text-gray-300" : "text-gray-700"}
+              `}
           >
-            <option value="USER">مستخدم</option>
-            <option value="TECHNICAL">تقني</option>
-            {userRole === "ADMIN" && <option value="ADMIN">مدير</option>}
-            {userRole === "ADMIN" && (
-              <option value="SUBADMIN">مدير محافظة</option>
-            )}
-          </select>
+            نوع المستخدم
+          </label>
+          <div className="relative">
+            {/* <ChevronDown 
+                className={`
+                  absolute left-3 top-1/2 transform -translate-y-1/2
+                  ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}
+                  w-5 h-5
+                `} 
+              /> */}
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className={`
+                  w-full pl-10 pr-3 py-2 rounded-lg
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-white text-gray-900 border-gray-300"
+                  }
+                  border focus:outline-none focus:ring-2 focus:ring-blue-500
+                  transition duration-300
+                `}
+            >
+              <option value="USER">مستخدم</option>
+              <option value="TECHNICAL">تقني</option>
+              {userRole === "ADMIN" && <option value="ADMIN">مدير</option>}
+              {userRole === "ADMIN" && (
+                <option value="SUBADMIN">مدير محافظة</option>
+              )}
+            </select>
+          </div>
         </div>
 
-        <div className="mb-4">
-          <label className="block">كلمة المرور:</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="mt-1 p-2 text-black w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        {/* Password Input */}
+        <div className="relative">
+          <label
+            className={`
+                block mb-2 text-sm font-medium
+                ${isDarkMode ? "text-gray-300" : "text-gray-700"}
+              `}
+          >
+            كلمة المرور
+          </label>
+          <div className="relative">
+            <Lock
+              className={`
+                  absolute left-3 top-1/2 transform -translate-y-1/2
+                  ${isDarkMode ? "text-gray-400" : "text-gray-500"}
+                  w-5 h-5
+                `}
+            />
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className={`
+                  w-full pl-10 pr-3 py-2 rounded-lg
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-white text-gray-900 border-gray-300"
+                  }
+                  border focus:outline-none focus:ring-2 focus:ring-blue-500
+                  transition duration-300
+                `}
+              placeholder="أدخل كلمة المرور"
+            />
+          </div>
           {errors.password && (
-            <span className="text-red-600">{errors.password}</span>
+            <span className="text-red-500 text-sm mt-1 block">
+              {errors.password}
+            </span>
           )}
         </div>
+
+        {/* Additional Role-Specific Fields */}
+        {/* (Keep the existing conditional rendering for TECHNICAL and SUBADMIN roles) */}
 
         {formData.role === "TECHNICAL" && (
           <>
@@ -279,7 +482,16 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onSubmit, onClose }) => {
               <select
                 name="specialization"
                 onChange={handleChange}
-                className="mt-1 text-black p-2 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`
+                    w-full pl-10 pr-3 py-2 rounded-lg
+                    ${
+                      isDarkMode
+                        ? "bg-gray-700 text-white border-gray-600"
+                        : "bg-white text-gray-900 border-gray-300"
+                    }
+                    border focus:outline-none focus:ring-2 focus:ring-blue-500
+                    transition duration-300
+                  `}
               >
                 <option value="">اختر الاختصاص</option>
                 {specializations.map((spec) => (
@@ -300,7 +512,16 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onSubmit, onClose }) => {
                 name="services"
                 value={formData.services}
                 onChange={handleChange}
-                className="mt-1 p-2 text-black w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`
+                    w-full pl-10 pr-3 py-2 rounded-lg
+                    ${
+                      isDarkMode
+                        ? "bg-gray-700 text-white border-gray-600"
+                        : "bg-white text-gray-900 border-gray-300"
+                    }
+                    border focus:outline-none focus:ring-2 focus:ring-blue-500
+                    transition duration-300
+                  `}
               />
               {errors.services && (
                 <span className="text-red-600">{errors.services}</span>
@@ -312,41 +533,70 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onSubmit, onClose }) => {
           <>
             <div className="mb-4">
               <label className="block">قطاع العمل:</label>
-              <select
-                name="admin_governorate"
-                value={formData.admin_governorate}
-                onChange={handleChange}
-                required
-                className="mt-1 p-2 text-black w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">اختر المحافظة</option>
-                <option value="دمشق">دمشق</option>
-                <option value="ريف دمشق">ريف دمشق</option>
-                <option value="حمص">حمص</option>
-                <option value="حماه">حماه</option>
-                <option value="طرطوس">طرطوس</option>
-                <option value="اللاذقية">اللاذقية</option>
-                <option value="السويداء">السويداء</option>
-                <option value="القنيطرة">القنيطرة</option>
-                <option value="حلب">حلب</option>
-                <option value="الرقة">الرقة</option>
-                <option value="الحسكة">الحسكة</option>
-                <option value="دير الزور">دير الزور</option>
-                <option value="ادلب">ادلب</option>
-              </select>
+              <div className="relative">
+                <MapPin
+                  className={`
+                  absolute left-3 top-1/2 transform -translate-y-1/2
+                  ${isDarkMode ? "text-gray-400" : "text-gray-500"}
+                  w-5 h-5
+                `}
+                />
+                <select
+                  name="admin_governorate"
+                  value={formData.admin_governorate}
+                  onChange={handleChange}
+                  required
+                  className={`
+                      w-full pl-10 pr-3 py-2 rounded-lg
+                      ${
+                        isDarkMode
+                          ? "bg-gray-700 text-white border-gray-600"
+                          : "bg-white text-gray-900 border-gray-300"
+                      }
+                      border focus:outline-none focus:ring-2 focus:ring-blue-500
+                      transition duration-300
+                    `}
+                >
+                  <option value="">اختر المحافظة</option>
+                  <option value="دمشق">دمشق</option>
+                  <option value="ريف دمشق">ريف دمشق</option>
+                  <option value="حمص">حمص</option>
+                  <option value="حماه">حماه</option>
+                  <option value="طرطوس">طرطوس</option>
+                  <option value="اللاذقية">اللاذقية</option>
+                  <option value="السويداء">السويداء</option>
+                  <option value="القنيطرة">القنيطرة</option>
+                  <option value="حلب">حلب</option>
+                  <option value="الرقة">الرقة</option>
+                  <option value="الحسكة">الحسكة</option>
+                  <option value="دير الزور">دير الزور</option>
+                  <option value="ادلب">ادلب</option>
+                </select>
+              </div>
             </div>
           </>
         )}
 
-        <button
-          type="submit"
-          className={`mt-4 p-2 rounded-lg ${
-            isDarkMode ? "bg-blue-600 text-white" : "bg-blue-500 text-white"
-          } hover:bg-blue-700`}
-          disabled={loading}
-        >
-          {loading ? "جارٍ الإضافة..." : "إضافة مستخدم"}
-        </button>
+        {/* Submit Button */}
+        <div className="md:col-span-2 mt-4">
+          <button
+            type="submit"
+            disabled={loading}
+            className={`
+                w-full py-3 rounded-lg text-white font-bold
+                ${
+                  isDarkMode
+                    ? "bg-blue-600 hover:bg-blue-700"
+                    : "bg-blue-500 hover:bg-blue-600"
+                }
+                transition duration-300 ease-in-out
+                focus:outline-none focus:ring-2 focus:ring-blue-500
+                ${loading ? "opacity-50 cursor-not-allowed" : ""}
+              `}
+          >
+            {loading ? "جارٍ الإضافة..." : "إضافة مستخدم"}
+          </button>
+        </div>
       </form>
     </div>
   );

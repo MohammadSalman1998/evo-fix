@@ -444,15 +444,79 @@ const UserPage = () => {
       </div>
     </div>
 
+
+    {showEditModal && (
+  <Modal open={showEditModal} onClose={() => setShowEditModal(false)}>
+    <div className="relative flex items-center justify-center min-h-screen">
+      <div className="relative p-8 bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-lg w-full mx-4">
+        {/* زر الإغلاق */}
+        <button
+          onClick={() => setShowEditModal(false)}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-2xl transition duration-300"
+          aria-label="إغلاق"
+        >
+          &times;
+        </button>
+
+        {/* محتوى المودال */}
+        {formData && (
+          <UserForm
+            initialData={formData}
+            onSubmit={editUser}
+            isNew={isNew}
+            isTechnical={user.role === "TECHNICAL"}
+            isSubAdmin={user.role === "SUBADMIN"}
+            onClose={() => setShowEditModal(false)}
+            submitButtonLabel={isNew ? "إضافة" : "تعديل"}
+          />
+        )}
+      </div>
+    </div>
+  </Modal>
+)}
+
+{editPassword && (
+  <Modal open={editPassword} onClose={() => setEditPassword(false)}>
+    <div className="relative flex items-center justify-center min-h-screen">
+      <div className="relative p-8 bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-md w-full mx-4">
+        {/* زر الإغلاق */}
+        <button
+          onClick={() => setEditPassword(false)}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-2xl transition duration-300"
+          aria-label="إغلاق"
+        >
+          &times;
+        </button>
+
+        {/* محتوى المودال */}
+        <PasswordResetForm
+          onSubmit={handleEditPassword}
+          password={password}
+          confirmPassword={confirmPassword}
+          setPassword={setPassword}
+          setConfirmPassword={setConfirmPassword}
+          darkMode={isDarkMode}
+          loading={editing}
+        />
+      </div>
+    </div>
+  </Modal>
+)}
+
+
+
+
+{/* 
     {showEditModal && (
       <Modal className="" open={showEditModal} onClose={() => setShowEditModal(false)}>
         <div className="relative p-8 bg-gradient-to-b  rounded-xl shadow-2xl max-w-lg mx-auto">
+
           <button
-            onClick={() => setShowEditModal(false)}
-            className="absolute top-0 right-4 text-gray-300 bg-gray-700 rounded-full p-2 hover:bg-gray-600"
-          >
-            ×
-          </button>
+              onClick={() => setShowEditModal(false)}
+              className="text-gray-500 text-2xl hover:text-red-500 transition duration-300"
+            >
+              &times;
+            </button>
           {formData && (
             <UserForm
               initialData={formData}
@@ -490,7 +554,7 @@ const UserPage = () => {
           </div>
         </div>
       </Modal>
-    )}
+    )} */}
   </div>
 </>
 

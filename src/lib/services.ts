@@ -124,7 +124,7 @@ export async function updateDeviceModel(
 export async function GetAllDeviceModel() {
     try {
       const getallDeviceModel = await prisma.devicesModels.findMany({
-        where: { isActive: true },
+        // where: { isActive: true },
         include:{services:true},
         orderBy:{createAt:"desc"}
       });

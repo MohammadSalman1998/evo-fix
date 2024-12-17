@@ -115,7 +115,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={`
-        w-full max-w-md mx-auto p-8 rounded-3xl shadow-2xl relative overflow-hidden
+        w-full max-w-md mx-auto p-2 rounded-3xl shadow-2xl relative overflow-hidden 
         ${darkMode 
           ? 'bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-800' 
           : 'bg-gradient-to-br from-white to-gray-50 border border-gray-100'

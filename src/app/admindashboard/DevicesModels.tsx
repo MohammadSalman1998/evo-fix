@@ -50,9 +50,14 @@ const DevicesModels: React.FC = () => {
   }, [contextDeviceModels]);
 
   const handleSaveModel = async (data: DeviceModel) => {
+    if (!data.title || !data.serviceID) {
+      toast.error("الرجاء إدخال جميع البيانات المطلوبة");
+      return;
+    }
+  
     try {
       const authToken = Cookies.get("token");
-
+  
       if (selectedModel) {
         // Update existing model
         await axios.put(
@@ -63,11 +68,6 @@ const DevicesModels: React.FC = () => {
           }
         );
         toast.success("تم تعديل الموديل بنجاح!");
-
-        // Update model locally
-        setDeviceModels((prev) =>
-          prev.map((model) => (model.id === selectedModel.id ? data : model))
-        );
       } else {
         // Add new model
         const response = await axios.post(
@@ -78,17 +78,33 @@ const DevicesModels: React.FC = () => {
           }
         );
         toast.success(response.data.message || "تم إضافة الموديل بنجاح");
-
-        // Add new model locally using server data
         setDeviceModels((prev) => [response.data.device_model, ...prev]);
       }
-
+  
       setIsModalOpen(false);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("حدث خطأ غير متوقع، الرجاء المحاولة لاحقًا");
     }
   };
+
+  const fetchDeviceModels = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${API_BASE_URL}/device-models`);
+      setDeviceModels(response.data.DeviceModel || []);
+    } catch (error) {
+      toast.error("حدث خطأ أثناء جلب الموديلات");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchDeviceModels();
+  }, []);
+  
 
   const handleEditModel = (model: DeviceModel) => {
     setSelectedModel(model);
@@ -109,18 +125,19 @@ const DevicesModels: React.FC = () => {
   const handleDeleteModel = async (id: number) => {
     try {
       const authToken = Cookies.get("token");
+  
       await axios.delete(`${API_BASE_URL}/device-models/${id}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
+  
       toast.success("تم حذف الموديل بنجاح");
-
-      // Remove model from local state
       setDeviceModels((prev) => prev.filter((model) => model.id !== id));
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      toast.error("حدث خطأ اثناء الحذف");
-      console.error(error);
+      toast.error("حدث خطأ أثناء الحذف");
     }
   };
+  
 
   const handleToggleActive = async (model: DeviceModel) => {
     setLoading(true);
@@ -223,9 +240,9 @@ const DevicesModels: React.FC = () => {
                     ></span>
                   </div>
                   <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                    <p>Status: {model.isActive ? "Active" : "Inactive"}</p>
+                    <p>الحالة: {model.isActive ? "فعال" : "غير فعال"}</p>
                     <p>
-                      Created At:{" "}
+                      تاريخ الإنشاء{" "}
                       {model.createAt
                         ? new Date(model.createAt).toLocaleDateString()
                         : "Not available"}
@@ -269,7 +286,7 @@ const DevicesModels: React.FC = () => {
           </div>
         ) : (
           <div className="text-center py-10 text-gray-500 dark:text-gray-400">
-            No device models available currently.
+           لا يوجد موديلات متاحة حاليا
           </div>
         )}
 

@@ -47,7 +47,7 @@ interface UserFormData {
 
 const Users: React.FC = () => {
   const { isDarkMode } = useContext(ThemeContext); // Get dark mode state from context
-  const [searchValue,] = useState("");
+  const [searchValue] = useState("");
   const [users, setUsers] = useState<User[]>([]); // State for user list
   const [loading, setLoading] = useState(true); // State for loading spinner
   const [, setLoding] = useState(false); // State for loading spinner
@@ -379,10 +379,11 @@ const Users: React.FC = () => {
       <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800 dark:text-white">
         إدارة المستخدمين
       </h2>
+
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={openAddUserModal}
-          className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 flex items-center space-x-2 shadow-lg"
+          className="bg-green-500 dark:bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-600 dark:hover:bg-green-800 transition duration-200 flex items-center space-x-2 shadow-lg"
         >
           <FaPlus /> <span>إضافة مستخدم جديد</span>
         </button>
@@ -390,23 +391,29 @@ const Users: React.FC = () => {
 
       {/* Tabs */}
       <div className="flex justify-center mb-4 space-x-2">
-        {["users", "technicians", "subAdmins"].map((tab) => (
-          (tab !== "subAdmins" || userRole === "ADMIN") && (
-            <button
-              key={tab}
-              onClick={() => setSelectedTab(tab)}
-              className={`px-4 py-2 ml-3 rounded-lg font-medium transition-colors ${
-                selectedTab === tab
-                  ? "bg-blue-700 text-white"
-                  : "bg-blue-500 text-gray-100 hover:bg-blue-600"
-              }`}
-            >
-              {tab === "users" ? "المستخدمين" : tab === "technicians" ? "التقنيين" : "مدراء المحافظات"}
-            </button>
-          )
-        ))}
-      </div>    
+        {["users", "technicians", "subAdmins"].map(
+          (tab) =>
+            (tab !== "subAdmins" || userRole === "ADMIN") && (
+              <button
+                key={tab}
+                onClick={() => setSelectedTab(tab)}
+                className={`px-4 py-2 ml-3 rounded-lg font-medium transition-colors duration-200 ${
+                  selectedTab === tab
+                    ? "bg-blue-700 dark:bg-blue-800 text-white"
+                    : "bg-blue-500 dark:bg-blue-700 text-gray-100 hover:bg-blue-600 dark:hover:bg-blue-800"
+                }`}
+              >
+                {tab === "users"
+                  ? "المستخدمين"
+                  : tab === "technicians"
+                  ? "التقنيين"
+                  : "مدراء المحافظات"}
+              </button>
+            )
+        )}
+      </div>
 
+      {/* Content */}
       {isMobile ? (
         <div className="grid grid-cols-1 gap-4">
           {filteredUsers.length > 0 ? (
@@ -417,48 +424,37 @@ const Users: React.FC = () => {
                 onEdit={() => openEditModal(user)}
                 onDelete={() => handleDeleteUser(user.id)}
                 onView={() => handleViewUser(user)}
-                onToggleActive={() => handleToggleActive(user.id, user.isActive)}
+                onToggleActive={() =>
+                  handleToggleActive(user.id, user.isActive)
+                }
               />
             ))
           ) : (
-            <p>لا يوجد مستخدمون لعرضهم.</p>
+            <p className="text-gray-500 dark:text-gray-300">
+              لا يوجد مستخدمون لعرضهم.
+            </p>
           )}
         </div>
       ) : (
         <GenericTable data={tableData} columns={tableColumns} />
       )}
 
-      {selectedUser && (
-        <UserDetails user={selectedUser} onClose={closeModal} />
-      )}
+      {/* User Details Modal */}
+      {selectedUser && <UserDetails user={selectedUser} onClose={closeModal} />}
+
+      {/* Add User Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div
-            className={`rounded-lg shadow-lg w-3/4 md:w-1/2 ${
-              isDarkMode ? "bg-gray-800 text-light" : "bg-gray-200 text-black"
-            } p-4 relative`}
-            style={{ overflowY: "auto" }}
-          >
+        <div className="fixed inset-0  bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="w-full md:w-3/4 lg:w-1/2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 md:p-6 relative max-h-screen overflow-y-auto">
+            {/* زر الإغلاق */}
             <button
               onClick={closeModal}
-              className="absolute top-4 left-5 text-white hover:text-gray-600 "
-              aria-label="Close"
+              className="text-gray-500 text-2xl hover:text-red-500 transition duration-300"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              &times;
             </button>
+
+            {/* نموذج إضافة المستخدم */}
             <AddUserForm onSubmit={handleAddUser} onClose={closeModal} />
           </div>
         </div>

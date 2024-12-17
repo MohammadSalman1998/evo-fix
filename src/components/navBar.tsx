@@ -22,6 +22,7 @@ import { FaList, FaMoon, FaSignOutAlt } from "react-icons/fa";
 import { AuthContext } from "@/app/context/AuthContext";
 import { ThemeContext } from "@/app/context/ThemeContext";
 import EVOFIX from "./assets/images/EVOFIX.png";
+import EVOFIXB from "./assets/images/EVOFIXB.png";
 import { 
   fetchNotificationsCount, 
   startNotificationsCount 
@@ -383,7 +384,9 @@ const Navbar: React.FC<NavbarProps> = ({ }) => {
               {isDarkMode ? <FaMoon /> : <FiSun className="text-yellow-500" />}
             </button>
 
-            <Link href="/" className="flex items-center">
+
+             <Link href="/" className="flex items-center">
+            {isDarkMode ? 
               <Image
                 src={EVOFIX}
                 alt="شعار EVOFIX"
@@ -391,6 +394,15 @@ const Navbar: React.FC<NavbarProps> = ({ }) => {
                 height={40}
                 className="object-contain mx-11"
               />
+              :
+              <Image
+                src={EVOFIXB}
+                alt="شعار EVOFIX"
+                width={60}
+                height={40}
+                className="object-contain mx-11"
+              />
+            }
             </Link>
           </div>
 

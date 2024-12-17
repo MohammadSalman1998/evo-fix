@@ -646,56 +646,7 @@ const UserForm: React.FC<UserFormProps> = ({
 
   return (
     <>
-      <div
-        className={`
-      min-h-screen 
-      flex 
-      items-center 
-      justify-center 
-      p-4 
-      relative 
-      overflow-hidden
-      ${
-        isDarkMode
-          ? "bg-gradient-to-br from-gray-900 to-gray-800"
-          : "bg-gradient-to-br from-blue-100 to-white"
-      }
-    `}
-      >
-        {/* Decorative Background Elements */}
-        <div className="absolute top-0 left-0 right-0 bottom-0 pointer-events-none">
-          <div
-            className={`
-          absolute 
-          rounded-full 
-          opacity-20 
-          ${isDarkMode ? "bg-blue-500" : "bg-blue-200"}
-        `}
-            style={{
-              width: "400px",
-              height: "400px",
-              top: "-100px",
-              left: "-100px",
-              filter: "blur(100px)",
-            }}
-          />
-          <div
-            className={`
-          absolute 
-          rounded-full 
-          opacity-20 
-          ${isDarkMode ? "bg-purple-500" : "bg-purple-200"}
-        `}
-            style={{
-              width: "300px",
-              height: "300px",
-              bottom: "-100px",
-              right: "-100px",
-              filter: "blur(100px)",
-            }}
-          />
-        </div>
-
+      <div>
         <div
           className={`
         w-full 
