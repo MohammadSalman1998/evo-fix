@@ -57,7 +57,7 @@ const Home: NextPage = () => {
       />
 
       {/* أزرار التفاعل */}
-      <div className="fixed left-4 bottom-4 z-40 flex flex-col space-y-2">
+      <div className="fixed left-4 bottom-4 z-[90] flex flex-col space-y-2">
         <RepairRequestButton update={update} />
         <ChatBotButton />
       </div>

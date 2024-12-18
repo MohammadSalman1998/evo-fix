@@ -221,7 +221,7 @@ const RepairRequestButton: React.FC<requestbuttonProps> = ({ update }) => {
       {/* Floating Request Button */}
       <button
         onClick={openModal}
-        className={`fixed bottom-32 left-6 flex items-center justify-center p-4 text-sm font-semibold rounded-full shadow-2xl transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 z-50 group ${
+        className={`fixed bottom-4 left-6 flex items-center justify-center p-4 text-sm font-semibold rounded-full shadow-2xl transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 z-20 group ${
           isDarkMode
             ? "bg-gradient-to-br from-blue-700 to-blue-500 text-white hover:from-blue-600 hover:to-blue-400 focus:ring-blue-400"
             : "bg-gradient-to-br from-blue-500 to-blue-300 text-white hover:from-blue-400 hover:to-blue-200 focus:ring-blue-200"

@@ -13,7 +13,7 @@ import {
   FaBell,
   FaUser,
   FaSignOutAlt,
-  FaHome,
+  // FaHome,
   FaTools,
   FaFileInvoice,
 
@@ -116,11 +116,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectOption }) => {
   };
 
   const mainRow = [
-    {
-      key: "viewHome",
-      name: "الرئيسية",
-      icon: <FaHome className="text-2xl" />,
-    },
+    // {
+    //   key: "viewHome",
+    //   name: "الرئيسية",
+    //   icon: <FaHome className="text-2xl" />,
+    // },
     {
       key: "viewRequests",
       name: "طلبات الإصلاح",

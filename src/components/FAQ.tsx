@@ -41,9 +41,9 @@ const FAQ = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6 ">
     {/* زر فتح نافذة إضافة سؤال */}
-    <div className="text-center">
+    <div className="text-center ">
       <button
         onClick={() => setIsPopupOpen(true)}
         className="bg-blue-600 text-white px-8 py-3 rounded-lg shadow-md transition-all duration-300 
@@ -56,8 +56,8 @@ const FAQ = () => {
   
     {/* نافذة منبثقة لإضافة سؤال جديد */}
     {isPopupOpen && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md mx-auto relative overflow-hidden">
+      <div className="fixed inset-0 z-[200] bg-black bg-opacity-50 flex items-center justify-center backdrop-blur-sm p-4">
+        <div className="bg-white  dark:bg-gray-800  rounded-xl shadow-2xl w-full max-w-md mx-auto relative overflow-hidden">
           {/* زر الإغلاق */}
           <button
             onClick={() => setIsPopupOpen(false)}
@@ -76,7 +76,7 @@ const FAQ = () => {
           </button>
   
           {/* محتوى النافذة المنبثقة */}
-          <div className="p-6">
+          <div className="p-6 z-20 ">
             <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6 text-center">
               أضف سؤالك
             </h3>

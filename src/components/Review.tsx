@@ -90,7 +90,7 @@ const Reviews = () => {
   return (
     <section
     className={`
-      w-full overflow-hidden relative z-10 py-16 md:py-20 lg:py-28
+      w-full overflow-hidden relative  py-16 md:py-20 lg:py-28
       ${isDarkMode ? "bg-gray-900 text-gray-200" : "bg-gray-50 text-gray-900"}
       transition-colors duration-300
     `}
