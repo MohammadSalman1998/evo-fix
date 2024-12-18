@@ -79,7 +79,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ onClose }) => {
     <div 
       className={`
         fixed inset-0 sm:bottom-4 sm:right-4 sm:inset-auto 
-        w-full sm:max-w-md sm:w-full z-50 
+        w-full sm:max-w-md sm:w-full z-[9999] 
         transition-all duration-300 ease-in-out
         ${
           isDarkMode
