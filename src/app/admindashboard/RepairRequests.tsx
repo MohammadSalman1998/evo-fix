@@ -131,7 +131,7 @@ const RepairRequestsPage: React.FC = () => {
         <div className="flex justify-center items-center h-96">
           <ClipLoader color="#4A90E2" size={50} />
         </div>
-      ) : !repairRequests || repairRequests.length === 0 ? (
+      ) : !repairRequests || !Array.isArray(repairRequests) || repairRequests.length === 0 ? (
         <div className="text-center text-gray-500">
           لا توجد طلبات إصلاح حالياً.
         </div>
@@ -149,7 +149,10 @@ const RepairRequestsPage: React.FC = () => {
             ))}
         </div>
       ) : (
-        <GenericTable<RepairRequest> data={repairRequests} columns={columns} />
+        repairRequests && repairRequests.length > 0 && (
+          <GenericTable<RepairRequest> data={repairRequests} columns={columns} />
+      )
+      
       )}
 
 <ToastContainer
